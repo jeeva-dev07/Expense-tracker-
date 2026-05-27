@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"><title>Dashboard - Expense Tracker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <nav>
+            <h2>WalletWatch</h2>
+            <div>
+                <span id="welcomeMsg" style="font-weight:600;">Welcome, User</span>
+                <a href="dashboard.html" style="border-bottom: 2px solid;">Dashboard</a>
+                <a href="expenses.html">Manage Expenses</a>
+                <button class="logout-btn" onclick="handleLogout()" style="margin-left:20px;">Logout</button>
+            </div>
+        </nav>
+
+        <div class="grid-3">
+            <div class="card"><h4>Total Managed Entries</h4><p id="statCount">0</p></div>
+            <div class="card"><h4>Total Spent</h4><p id="statSum">$0.00</p></div>
+            <div class="card"><h4>Highest Record Single Outlay</h4><p id="statMax">$0.00</p></div>
+            <div class="card"><h4>Categories Activated</h4><p id="statCats">0</p></div>
+        </div>
+
+        <div class="layout-split">
+            <div class="card">
+                <h3>Categorical Allocation Breakdowns</h3>
+                <div id="categoryBars" style="margin-top:15px;"></div>
+            </div>
+            <div class="card">
+                <h3>Recent Outlays (Last 5 Logs)</h3>
+                <table>
+                    <thead>
+                        <tr><th>Title</th><th>Category</th><th>Amount</th><th>Date</th></tr>
+                    </thead>
+                    <tbody id="recentTableBody"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+    <script>document.addEventListener("DOMContentLoaded", loadDashboardView);</script>
+</body>
+</html>
