@@ -1,0 +1,55 @@
+Q1. What is a foreign key and what does ON DELETE CASCADE do?
+
+A foreign key is a column used to create a relationship between two tables.
+In this project:
+FOREIGN KEY (user_id) REFERENCES users(id)
+means every expense belongs to a valid user from the users table.
+ON DELETE CASCADE means:
+If a user account is deleted, all expenses related to that user are automatically deleted from the expenses table.
+This prevents orphan records and keeps the database clean.
+
+
+Q2. How does your backend make sure User A cannot see User B's expenses?
+
+The backend always filters queries using:
+WHERE user_id = session['user_id']
+Example:
+SELECT * FROM expenses
+WHERE user_id=%s
+When updating or deleting:
+UPDATE expenses
+SET title=%s
+WHERE id=%s AND user_id=%s
+This ensures:
+•	users only access their own data 
+•	one user cannot view, edit, or delete another user's expenses 
+Every protected route also checks login session before processing.
+
+
+Q3. What SQL query did you use for the category summary?
+
+SELECT category,
+       SUM(amount) AS total
+FROM expenses
+WHERE user_id=%s
+GROUP BY category;
+This query:
+•	filters expenses for the logged-in user 
+•	groups expenses by category 
+•	calculates total spending per category 
+
+
+Q4. What was the hardest part of this task and how did you solve it?
+
+The hardest part was implementing secure user-based expense isolation.
+The challenge was making sure:
+•	users cannot access another user's expenses 
+•	every API route stays protected 
+This was solved by:
+1.	Using Flask sessions for authentication 
+2.	Checking session before every expense route 
+3.	Adding: 
+WHERE user_id = session['user_id']
+in every SELECT, UPDATE, and DELETE query
+4. Using parameterized queries for security
+This ensured complete data privacy between users.
